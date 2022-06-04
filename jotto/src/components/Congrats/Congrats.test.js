@@ -3,8 +3,11 @@ import {shallow} from 'enzyme';
 import Congrats from './Congrats';
 import {findByTestAttribute} from "../../../test/testUtils";
 
+const defaultProps = {success: false};
+
 const setup = (props = {}) => {
-    return shallow(<Congrats {...props} />);
+    const setupProps = {...defaultProps, ...props};
+    return shallow(<Congrats {...setupProps} />);
 }
 
 test('renders without crashing', async () => {
