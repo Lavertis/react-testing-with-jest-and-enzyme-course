@@ -1,5 +1,5 @@
 {
-  "name": "react-testing-with-jest-and-enzyme-course",
+  "name": "click-counter",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
