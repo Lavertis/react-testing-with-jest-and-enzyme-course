@@ -70,7 +70,7 @@ describe.skip('secret word is guessed', () => {
 
     test('displays congrats component', async () => {
         const congratsComponent = await findByTestAttribute(wrapper, 'congrats-component');
-        expect(congratsComponent.text()).toBeGreaterThan(0);
+        expect(congratsComponent.text().length).toBeGreaterThan(0);
     });
 
     test('does not display input component', async () => {

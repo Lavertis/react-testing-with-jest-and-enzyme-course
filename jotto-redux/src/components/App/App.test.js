@@ -7,7 +7,6 @@ import {Provider} from "react-redux";
 // activate global mock to make sure getSecretWord doesn't make a network request
 jest.mock('../../actions');
 
-
 const setup = () => {
     const store = storeFactory();
     return mount(

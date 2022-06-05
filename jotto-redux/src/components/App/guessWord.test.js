@@ -1,10 +1,18 @@
 import {mount} from "enzyme";
 import App from "./App";
-import {findByTestAttribute} from "../../../test/testUtils";
+import {findByTestAttribute, storeFactory} from "../../../test/testUtils";
+import {Provider} from "react-redux";
 
-const setup = async () => {
-    // TODO: apply the state to the component
-    const wrapper = mount(<App/>);
+// activate global mock to make sure getSecretWord doesn't make a network request
+jest.mock('../../actions');
+
+const setup = async (initialState = {}) => {
+    const store = storeFactory(initialState);
+    const wrapper = mount(
+        <Provider store={store}>
+            <App/>
+        </Provider>
+    );
 
     const inputBox = await findByTestAttribute(wrapper, 'input-box');
     inputBox.simulate('change', {target: {value: 'train'}});
@@ -15,7 +23,7 @@ const setup = async () => {
     return wrapper;
 }
 
-describe.skip('no words guessed', () => {
+describe('no words guessed', () => {
     let wrapper;
     beforeEach(async () => {
         wrapper = await setup({
@@ -31,7 +39,7 @@ describe.skip('no words guessed', () => {
     });
 })
 
-describe.skip('some words guessed', () => {
+describe('some words guessed', () => {
     let wrapper;
     beforeEach(async () => {
         wrapper = await setup({
@@ -47,7 +55,7 @@ describe.skip('some words guessed', () => {
     });
 });
 
-describe.skip('secret word is guessed', () => {
+describe('secret word is guessed', () => {
     let wrapper;
     beforeEach(async () => {
         wrapper = await setup({
@@ -69,8 +77,8 @@ describe.skip('secret word is guessed', () => {
     });
 
     test('displays congrats component', async () => {
-        const congratsComponent = await findByTestAttribute(wrapper, 'congrats-component');
-        expect(congratsComponent.text()).toBeGreaterThan(0);
+        const congratsComponent = await findByTestAttribute(wrapper, 'component-congrats');
+        expect(congratsComponent.text().length).toBeGreaterThan(0);
     });
 
     test('does not display input component', async () => {

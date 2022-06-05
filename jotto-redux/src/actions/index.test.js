@@ -1,12 +1,6 @@
 import moxios from 'moxios';
-import {actionTypes, correctGuess, getSecretWord} from "./index";
+import {getSecretWord} from "./index";
 
-describe('correctGuess', function () {
-    test('returns an action with type "CORRECT_GUESS"', () => {
-        const action = correctGuess();
-        expect(action).toStrictEqual({type: actionTypes.CORRECT_GUESS});
-    });
-});
 
 describe('getSecretWord', function () {
     beforeEach(() => {

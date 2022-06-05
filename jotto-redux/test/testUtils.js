@@ -1,8 +1,9 @@
 import rootReducer from '../src/reducers';
-import {createStore} from "redux";
+import {applyMiddleware, createStore} from "redux";
+import {middlewares} from "../src/configureStore";
 
 export const storeFactory = (initialState) => {
-    return createStore(rootReducer, initialState);
+    return createStore(rootReducer, initialState, applyMiddleware(...middlewares));
 }
 
 export const findByTestAttribute = (wrapper, value) => {

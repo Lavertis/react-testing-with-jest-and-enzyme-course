@@ -1,13 +1,16 @@
 import React from 'react';
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {guessWord} from "../../actions";
 
 
 const Input = () => {
     const [currentGuess, setCurrentGuess] = React.useState('');
     const success = useSelector(state => state.success);
+    const dispatch = useDispatch();
 
     const handleClick = (e) => {
         e.preventDefault();
+        dispatch(guessWord(currentGuess));
         setCurrentGuess('');
     }
 
