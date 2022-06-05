@@ -14,7 +14,7 @@ const setup = (success = false, secretWord = 'party') => {
     return shallow(<Input success={success} secretWord={secretWord}/>);
 }
 
-describe('render', function () {
+describe('render', () => {
     describe('success is true', () => {
         let wrapper;
         beforeEach(() => {
