@@ -1,3 +1,3 @@
 export const findByTestAttribute = (wrapper, value) => {
-    return wrapper.find(`[data-test='${value}']`);
+    return wrapper.findWhere(node => node.prop('data-test') === value);
 }
