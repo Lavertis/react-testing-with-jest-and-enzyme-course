@@ -8,7 +8,8 @@ export const actionTypes = {
     RESET_GAME: "RESET_GAME",
     GIVE_UP: "GIVE_UP",
     USER_ENTERING: "USER_ENTERING",
-    USER_ENTERED: "USER_ENTERED"
+    USER_ENTERED: "USER_ENTERED",
+    SERVER_ERROR: "SERVER_ERROR"
 }
 
 export const setUserEntering = () => ({type: actionTypes.USER_ENTERING});
@@ -45,5 +46,8 @@ export const getSecretWord = () => dispatch => {
         .then(response => dispatch({
             type: actionTypes.SET_SECRET_WORD,
             payload: response.data
-        }));
+        }))
+        .catch(() => {
+            dispatch({type: actionTypes.SERVER_ERROR});
+        })
 }
