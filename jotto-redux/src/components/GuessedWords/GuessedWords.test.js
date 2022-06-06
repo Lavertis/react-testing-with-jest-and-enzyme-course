@@ -18,8 +18,8 @@ describe('no words guessed', () => {
         wrapper = setup({guessedWords: []});
     });
 
-    test('renders without error', async () => {
-        const component = await findByTestAttribute(wrapper, 'component-guessed-words');
+    test('renders without error', () => {
+        const component = findByTestAttribute(wrapper, 'component-guessed-words');
         expect(component.length).toBe(1);
     });
 
