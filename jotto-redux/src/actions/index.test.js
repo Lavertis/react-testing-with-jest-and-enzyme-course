@@ -12,10 +12,10 @@ describe('getSecretWord', function () {
         moxios.uninstall();
     });
 
-    test('returns the secret word', async () => {
+    test('returns the secret word', () => {
         const store = storeFactory();
 
-        await moxios.wait(() => {
+        moxios.wait(() => {
             const request = moxios.requests.mostRecent();
             request.respondWith({
                 status: 200,

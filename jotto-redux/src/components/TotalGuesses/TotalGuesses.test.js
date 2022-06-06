@@ -1,13 +1,13 @@
 import React from 'react';
 import {shallow} from 'enzyme';
-import GuessCount from './GuessCount';
+import TotalGuesses from './TotalGuesses';
 import {findByTestAttribute} from "../../../test/testUtils";
 
 const defaultProps = {guessCount: 0};
 
 const setup = (props = {}) => {
     const setupProps = {...defaultProps, ...props};
-    return shallow(<GuessCount {...setupProps}/>)
+    return shallow(<TotalGuesses {...setupProps}/>)
 }
 
 describe('no words guessed', () => {

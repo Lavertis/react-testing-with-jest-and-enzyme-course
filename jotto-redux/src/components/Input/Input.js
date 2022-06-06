@@ -32,10 +32,10 @@ const Input = () => {
                     onChange={(e) => setCurrentGuess(e.target.value)}
                 />
                 <button
-                    data-test="submit-button"
+                    data-test="take-guess-button"
                     className="btn btn-primary mb-2"
                     onClick={handleClick}>
-                    Submit
+                    Guess
                 </button>
             </form>
         </div>
