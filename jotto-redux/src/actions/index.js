@@ -4,8 +4,13 @@ import {getLetterMatchCount} from "../helpers";
 export const actionTypes = {
     CORRECT_GUESS: "CORRECT_GUESS",
     GUESS_WORD: "GUESS_WORD",
-    SET_SECRET_WORD: 'SET_SECRET_WORD',
-    RESET_GAME: "RESET_GAME"
+    SET_SECRET_WORD: "SET_SECRET_WORD",
+    RESET_GAME: "RESET_GAME",
+    GIVE_UP: "GIVE_UP"
+}
+
+export const giveUp = () => dispatch => {
+    dispatch({type: actionTypes.GIVE_UP})
 }
 
 export const resetGame = () => dispatch => {

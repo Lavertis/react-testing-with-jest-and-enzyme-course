@@ -1,20 +1,26 @@
 import React from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {guessWord} from "../../actions";
+import {giveUp, guessWord} from "../../actions";
 
 
-const Input = () => {
+const Input = ({guessCount}) => {
     const [currentGuess, setCurrentGuess] = React.useState('');
     const success = useSelector(state => state.success);
+    const gaveUp = useSelector(state => state.gaveUp);
     const dispatch = useDispatch();
 
-    const handleClick = (e) => {
+    const handleTakeGuessClick = (e) => {
         e.preventDefault();
         dispatch(guessWord(currentGuess));
         setCurrentGuess('');
     }
 
-    if (success) {
+    const handleGiveUpClick = (e) => {
+        e.preventDefault();
+        dispatch(giveUp());
+    }
+
+    if (success || gaveUp) {
         return (
             <div data-test="component-input"/>
         );
@@ -34,9 +40,17 @@ const Input = () => {
                 <button
                     data-test="take-guess-button"
                     className="btn btn-primary mb-2"
-                    onClick={handleClick}>
+                    onClick={handleTakeGuessClick}>
                     Guess
                 </button>
+                {guessCount > 0 &&
+                    <button
+                        data-test="give-up-button"
+                        onClick={handleGiveUpClick}
+                        className="btn btn-danger ms-2 mb-2">
+                        Give up
+                    </button>
+                }
             </form>
         </div>
     );
