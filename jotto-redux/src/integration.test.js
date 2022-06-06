@@ -1,5 +1,5 @@
 import {storeFactory} from "../test/testUtils";
-import {guessWord} from "./actions";
+import {guessWord, setUserSecretWord} from "./actions";
 import {getLetterMatchCount} from "./helpers";
 
 describe('guessWord action dispatcher', () => {
@@ -20,6 +20,7 @@ describe('guessWord action dispatcher', () => {
                 ...initialState,
                 success: false,
                 gaveUp: false,
+                userEnter: null,
                 guessedWords: [{
                     guessedWord: unsuccessfulGuess,
                     letterMatchCount: getLetterMatchCount(unsuccessfulGuess, secretWord)
@@ -35,6 +36,7 @@ describe('guessWord action dispatcher', () => {
                 ...initialState,
                 success: true,
                 gaveUp: false,
+                userEnter: null,
                 guessedWords: [{
                     guessedWord: secretWord,
                     letterMatchCount: secretWord.length
@@ -62,6 +64,7 @@ describe('guessWord action dispatcher', () => {
                 secretWord,
                 success: false,
                 gaveUp: false,
+                userEnter: null,
                 guessedWords: [
                     ...guessedWords,
                     {
@@ -81,9 +84,39 @@ describe('guessWord action dispatcher', () => {
                 secretWord,
                 success: true,
                 gaveUp: false,
+                userEnter: null,
                 guessedWords: [...guessedWords, {guessedWord: secretWord, letterMatchCount: secretWord.length}]
             }
             expect(newState).toEqual(expectedState);
         });
+    });
+});
+
+describe('setUserSecretWord action dispatcher', () => {
+    // this is in the integration test section because it
+    // involves the setUserSecretWord action creator and two reducers
+    let store;
+    let newState;
+
+    // this represents the word the user entered
+    const userSecretWord = 'lunch';
+
+    // this represents the word we got from the server
+    const initialState = {secretWord: 'party'};
+
+    // here I will run the action in the beforeEach, and
+    // check on each relevant piece of state separately
+    beforeEach(() => {
+        store = storeFactory(initialState);
+        store.dispatch(setUserSecretWord(userSecretWord));
+        newState = store.getState();
+    });
+
+    test('updates `secretWord` state correctly after entered word', () => {
+        expect(newState.secretWord).toBe(userSecretWord);
+    });
+
+    test('updates `userEnter` state correctly after entered word', () => {
+        expect(newState.userEnter).toBe('done');
     });
 });

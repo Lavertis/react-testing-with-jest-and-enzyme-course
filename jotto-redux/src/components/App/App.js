@@ -3,11 +3,13 @@ import Congrats from "../Congrats/Congrats";
 import GuessedWords from "../GuessedWords/GuessedWords";
 import Input from "../Input/Input";
 import {useEffect} from "react";
-import {getSecretWord, resetGame} from "../../actions";
+import {getSecretWord, resetGame, setUserEntering, setUserSecretWord} from "../../actions";
 import {useDispatch, useSelector} from "react-redux";
 import TotalGuesses from "../TotalGuesses/TotalGuesses";
 import NewWordButton from "../NewWordButton/NewWordButton";
 import SecretWordReveal from "../SecretWordReveal/SecretWordReveal";
+import EnterWordForm from "../EnterWordForm/EnterWordForm";
+import EnterWordButton from "../EnterWordButton/EnterWordButton";
 
 function App() {
     const dispatch = useDispatch();
@@ -15,10 +17,15 @@ function App() {
     const guessedWords = useSelector(state => state.guessedWords);
     const secretWord = useSelector(state => state.secretWord);
     const gaveUp = useSelector(state => state.gaveUp);
+    const userEnter = useSelector(state => state.userEnter);
 
     useEffect(() => {
         dispatch(getSecretWord());
     }, [dispatch]);
+
+    if (userEnter === "inProgress") {
+        return <EnterWordForm formAction={(word) => dispatch(setUserSecretWord(word))}/>
+    }
 
     return (
         <div className="container" data-test="component-app">
@@ -30,6 +37,7 @@ function App() {
             <Input success={success} secretWord={secretWord} guessCount={guessedWords.length}/>
             <GuessedWords guessedWords={guessedWords}/>
             <TotalGuesses guessCount={guessedWords.length}/>
+            <EnterWordButton display={guessedWords.length === 0} buttonAction={() => dispatch(setUserEntering())}/>
         </div>
     );
 }
