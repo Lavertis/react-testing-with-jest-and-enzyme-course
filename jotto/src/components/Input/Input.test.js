@@ -21,18 +21,18 @@ describe('render', () => {
             wrapper = setup(true);
         });
 
-        test('renders without error', async () => {
-            const inputComponent = await findByTestAttribute(wrapper, 'component-input');
+        test('renders without error', () => {
+            const inputComponent = findByTestAttribute(wrapper, 'component-input');
             expect(inputComponent.length).toBe(1);
         });
 
-        test('input box does not show', async () => {
-            const inputBox = await findByTestAttribute(wrapper, 'input-box');
+        test('input box does not show', () => {
+            const inputBox = findByTestAttribute(wrapper, 'input-box');
             expect(inputBox.exists()).toBe(false);
         })
 
-        test('submit button does not show', async () => {
-            const submitButton = await findByTestAttribute(wrapper, 'submit-button');
+        test('submit button does not show', () => {
+            const submitButton = findByTestAttribute(wrapper, 'submit-button');
             expect(submitButton.exists()).toBe(false);
         });
     });
@@ -43,18 +43,18 @@ describe('render', () => {
             wrapper = setup(false);
         });
 
-        test('renders without error', async () => {
-            const inputComponent = await findByTestAttribute(wrapper, 'component-input');
+        test('renders without error', () => {
+            const inputComponent = findByTestAttribute(wrapper, 'component-input');
             expect(inputComponent.length).toBe(1);
         });
 
-        test('input box shows', async () => {
-            const inputBox = await findByTestAttribute(wrapper, 'input-box');
+        test('input box shows', () => {
+            const inputBox = findByTestAttribute(wrapper, 'input-box');
             expect(inputBox.exists()).toBe(true);
         })
 
-        test('submit button shows', async () => {
-            const submitButton = await findByTestAttribute(wrapper, 'submit-button');
+        test('submit button shows', () => {
+            const submitButton = findByTestAttribute(wrapper, 'submit-button');
             expect(submitButton.exists()).toBe(true);
         });
     });
@@ -76,20 +76,20 @@ describe('state controlled input field', () => {
         React.useState = originalUseState;
     });
 
-    test('state updates with value of input box upon change', async () => {
+    test('state updates with value of input box upon change', () => {
         const value = 'train';
         const mockEvent = {target: {value: value}};
 
-        const inputBox = await findByTestAttribute(wrapper, 'input-box');
+        const inputBox = findByTestAttribute(wrapper, 'input-box');
         inputBox.simulate('change', mockEvent);
 
         expect(mockSetCurrentGuess).toHaveBeenCalledWith(value);
     });
 
-    test('field is cleared upon submit button click', async () => {
+    test('field is cleared upon submit button click', () => {
         const mockEvent = {preventDefault: jest.fn()};
 
-        const submitButton = await findByTestAttribute(wrapper, 'submit-button');
+        const submitButton = findByTestAttribute(wrapper, 'submit-button');
         submitButton.simulate('click', mockEvent);
 
         expect(mockSetCurrentGuess).toHaveBeenCalledWith('');

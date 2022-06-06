@@ -18,13 +18,13 @@ describe('no words guessed', () => {
         wrapper = setup({guessedWords: []});
     });
 
-    test('renders without error', async () => {
-        const component = await findByTestAttribute(wrapper, 'component-guessed-words');
+    test('renders without error', () => {
+        const component = findByTestAttribute(wrapper, 'component-guessed-words');
         expect(component.length).toBe(1);
     });
 
-    test('renders instructions to guess a word', async () => {
-        const instructions = await findByTestAttribute(wrapper, 'guess-instructions');
+    test('renders instructions to guess a word', () => {
+        const instructions = findByTestAttribute(wrapper, 'guess-instructions');
         expect(instructions.text().length).not.toBe(0);
     });
 });
@@ -41,18 +41,18 @@ describe('some words guessed', () => {
         wrapper = setup({guessedWords});
     });
 
-    test('renders without error', async () => {
-        const component = await findByTestAttribute(wrapper, 'component-guessed-words');
+    test('renders without error', () => {
+        const component = findByTestAttribute(wrapper, 'component-guessed-words');
         expect(component.length).toBe(1);
     });
 
-    test('renders guessed words section', async () => {
-        const guessedWordsElement = await findByTestAttribute(wrapper, 'guessed-words');
+    test('renders guessed words section', () => {
+        const guessedWordsElement = findByTestAttribute(wrapper, 'guessed-words');
         expect(guessedWordsElement.length).toBe(1);
     });
 
-    test('correct number of guessed words', async () => {
-        const guessedWordElements = await findByTestAttribute(wrapper, 'guessed-word');
+    test('correct number of guessed words', () => {
+        const guessedWordElements = findByTestAttribute(wrapper, 'guessed-word');
         expect(guessedWordElements.length).toBe(guessedWords.length);
     });
 });

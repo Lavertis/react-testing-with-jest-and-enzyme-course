@@ -10,20 +10,20 @@ const setup = (props = {}) => {
     return shallow(<Congrats {...setupProps} />);
 }
 
-test('renders without crashing', async () => {
+test('renders without crashing', () => {
     const wrapper = setup();
-    const component = await findByTestAttribute(wrapper, 'component-congrats');
+    const component = findByTestAttribute(wrapper, 'component-congrats');
     expect(component.length).toBe(1);
 });
 
-test('renders no text when `success` prop is false', async () => {
+test('renders no text when `success` prop is false', () => {
     const wrapper = setup({success: false});
-    const component = await findByTestAttribute(wrapper, 'component-congrats');
+    const component = findByTestAttribute(wrapper, 'component-congrats');
     expect(component.text()).toBe('');
 });
 
-test('renders non-empty congrats message when `success` prop is true', async () => {
+test('renders non-empty congrats message when `success` prop is true', () => {
     const wrapper = setup({success: true});
-    const message = await findByTestAttribute(wrapper, 'congrats-message');
+    const message = findByTestAttribute(wrapper, 'congrats-message');
     expect(message.text().length).not.toBe(0);
 });

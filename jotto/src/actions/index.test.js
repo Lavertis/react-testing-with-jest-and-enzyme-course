@@ -1,7 +1,7 @@
 import moxios from 'moxios';
 import {getSecretWord} from "./index";
 
-describe('getSecretWord', function () {
+describe('getSecretWord', () => {
     beforeEach(() => {
         moxios.install();
     });
@@ -10,8 +10,8 @@ describe('getSecretWord', function () {
         moxios.uninstall();
     });
 
-    test('returns the secret word', async () => {
-        await moxios.wait(() => {
+    test('returns the secret word', () => {
+        moxios.wait(() => {
             const request = moxios.requests.mostRecent();
             request.respondWith({
                 status: 200,

@@ -10,9 +10,9 @@ jest.mock('../../actions');
 const setup = () => {
     return mount(<App/>);
 }
-test('renders without error', async () => {
+test('renders without error', () => {
     const wrapper = setup();
-    const appComponent = await findByTestAttribute(wrapper, 'component-app');
+    const appComponent = findByTestAttribute(wrapper, 'component-app');
     expect(appComponent).toHaveLength(1);
 });
 
