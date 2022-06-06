@@ -44,5 +44,8 @@
     "@cfaester/enzyme-adapter-react-18": "^0.5.1",
     "enzyme": "^3.11.0",
     "moxios": "^0.4.0"
+  },
+  "jest": {
+    "resetMocks": false
   }
 }
