@@ -1,7 +1,8 @@
 import React from 'react';
-import {shallow} from 'enzyme';
+import {mount} from 'enzyme';
 import Input from './Input';
 import {findByTestAttribute} from "../../../test/testUtils";
+import languageContext from "../../contexts/language/languageContext";
 
 // mock entire module for destructuring useState on import
 // const mockSetCurrentGuess = jest.fn();
@@ -10,15 +11,32 @@ import {findByTestAttribute} from "../../../test/testUtils";
 //     useState: (initialState) => [initialState, mockSetCurrentGuess]
 // }))
 
-const setup = (success = false, secretWord = 'party') => {
-    return shallow(<Input success={success} secretWord={secretWord}/>);
+const setup = ({language = 'en', secretWord = 'party', success = false}) => {
+    return mount(
+        <languageContext.Provider value={language}>
+            <Input success={success} secretWord={secretWord}/>
+        </languageContext.Provider>
+    );
 }
+
+describe('languagePicker', () => {
+    test('renders submit string in English', () => {
+        const wrapper = setup({});
+        const submitButton = findByTestAttribute(wrapper, 'submit-button');
+        expect(submitButton.text()).toBe('Submit')
+    })
+    test('renders submit string in English', () => {
+        const wrapper = setup({language: 'emoji'});
+        const submitButton = findByTestAttribute(wrapper, 'submit-button');
+        expect(submitButton.text()).toBe('🚀');
+    })
+});
 
 describe('render', () => {
     describe('success is true', () => {
         let wrapper;
         beforeEach(() => {
-            wrapper = setup(true);
+            wrapper = setup({success: true});
         });
 
         test('renders without error', () => {
@@ -40,7 +58,7 @@ describe('render', () => {
     describe('success is false', () => {
         let wrapper;
         beforeEach(() => {
-            wrapper = setup(false);
+            wrapper = setup({success: false});
         });
 
         test('renders without error', () => {
@@ -69,7 +87,7 @@ describe('state controlled input field', () => {
         mockSetCurrentGuess.mockClear();
         originalUseState = React.useState;
         React.useState = jest.fn(() => ['', mockSetCurrentGuess]);
-        wrapper = setup();
+        wrapper = setup({});
     });
 
     afterEach(() => {

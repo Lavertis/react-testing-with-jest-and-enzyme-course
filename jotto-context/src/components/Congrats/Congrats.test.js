@@ -1,17 +1,30 @@
 import React from 'react';
-import {shallow} from 'enzyme';
+import {mount} from 'enzyme';
 import Congrats from './Congrats';
 import {findByTestAttribute} from "../../../test/testUtils";
+import languageContext from "../../contexts/language/languageContext";
 
-const defaultProps = {success: false};
-
-const setup = (props = {}) => {
-    const setupProps = {...defaultProps, ...props};
-    return shallow(<Congrats {...setupProps} />);
+const setup = ({success = false, language = 'en'}) => {
+    return mount(
+        <languageContext.Provider value={language}>
+            <Congrats success={success}/>
+        </languageContext.Provider>
+    )
 }
 
+describe('languagePicker', () => {
+    test('renders congrats string in English', () => {
+        const wrapper = setup({success: true});
+        expect(wrapper.text()).toBe('Congratulations! You guessed the word!')
+    })
+    test('renders congrats string in Emoji', () => {
+        const wrapper = setup({success: true, language: 'emoji'});
+        expect(wrapper.text()).toBe('🎯🎉')
+    })
+});
+
 test('renders without crashing', () => {
-    const wrapper = setup();
+    const wrapper = setup({});
     const component = findByTestAttribute(wrapper, 'component-congrats');
     expect(component.length).toBe(1);
 });

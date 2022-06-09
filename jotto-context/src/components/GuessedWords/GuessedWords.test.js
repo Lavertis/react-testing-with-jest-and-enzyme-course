@@ -12,6 +12,23 @@ const setup = (props = {}) => {
     return shallow(<GuessedWords {...setupProps}/>);
 }
 
+describe('languagePicker', () => {
+    test('renders guess instructions string in English by default', () => {
+        const wrapper = setup({guessedWords: []});
+        const guessInstructions = findByTestAttribute(wrapper, 'guess-instructions');
+        expect(guessInstructions.text()).toBe('Try to guess the secret word!');
+    })
+
+    test('renders guess instructions string in Emoji', () => {
+        const useContextMock = jest.fn().mockReturnValue('emoji');
+        React.useContext = useContextMock;
+
+        const wrapper = setup({guessedWords: []})
+        const guessInstructions = findByTestAttribute(wrapper, 'guess-instructions');
+        expect(guessInstructions.text()).toBe('🤔🤫🔤');
+    })
+});
+
 describe('no words guessed', () => {
     let wrapper;
     beforeEach(() => {
