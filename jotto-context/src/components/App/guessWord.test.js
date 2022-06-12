@@ -1,10 +1,21 @@
 import {mount} from "enzyme";
-import App from "./App";
 import {findByTestAttribute} from "../../../test/testUtils";
+import successContext from "../../contexts/success/successContext";
+import guessedWordsContext from "../../contexts/guessedWords/guessedWordsContext";
+import Congrats from "../Congrats/Congrats";
+import Input from "../Input/Input";
+import GuessedWords from "../GuessedWords/GuessedWords";
 
-const setup = (state = {}) => {
-    // TODO: apply the state to the component
-    const wrapper = mount(<App/>);
+const setup = ({secretWord, guessedWords}) => {
+    const wrapper = mount(
+        <guessedWordsContext.GuessedWordsProvider>
+            <successContext.SuccessProvider>
+                <Congrats/>
+                <Input secretWord={secretWord}/>
+                <GuessedWords/>
+            </successContext.SuccessProvider>
+        </guessedWordsContext.GuessedWordsProvider>
+    );
 
     const inputBox = findByTestAttribute(wrapper, 'input-box');
     inputBox.simulate('change', {target: {value: 'train'}});
@@ -12,10 +23,16 @@ const setup = (state = {}) => {
     const submitButton = findByTestAttribute(wrapper, 'submit-button');
     submitButton.simulate('click', {preventDefault: jest.fn()});
 
+    guessedWords.map(guess => {
+        const mockEvent = {target: {value: guess.guessedWord}}
+        inputBox.simulate('change', mockEvent);
+        submitButton.simulate('click', {preventDefault: jest.fn()});
+    })
+
     return wrapper;
 }
 
-describe.skip('no words guessed', () => {
+describe('no words guessed', () => {
     let wrapper;
     beforeEach(() => {
         wrapper = setup({
@@ -31,7 +48,7 @@ describe.skip('no words guessed', () => {
     });
 })
 
-describe.skip('some words guessed', () => {
+describe('some words guessed', () => {
     let wrapper;
     beforeEach(() => {
         wrapper = setup({
@@ -47,7 +64,7 @@ describe.skip('some words guessed', () => {
     });
 });
 
-describe.skip('secret word is guessed', () => {
+describe('secret word is guessed', () => {
     let wrapper;
     beforeEach(() => {
         wrapper = setup({
@@ -69,13 +86,13 @@ describe.skip('secret word is guessed', () => {
     });
 
     test('displays congrats component', () => {
-        const congratsComponent = findByTestAttribute(wrapper, 'congrats-component');
+        const congratsComponent = findByTestAttribute(wrapper, 'component-congrats');
         expect(congratsComponent.text().length).toBeGreaterThan(0);
     });
 
     test('does not display input component', () => {
-        const inputComponent = findByTestAttribute(wrapper, 'input-component');
-        expect(inputComponent.exists()).toBe(false);
+        const inputBox = findByTestAttribute(wrapper, 'input-box');
+        expect(inputBox.exists()).toBe(false);
 
         const submitButton = findByTestAttribute(wrapper, 'submit-button');
         expect(submitButton.exists()).toBe(false);

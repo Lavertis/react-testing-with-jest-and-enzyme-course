@@ -3,6 +3,8 @@ import {mount} from 'enzyme';
 import Input from './Input';
 import {findByTestAttribute} from "../../../test/testUtils";
 import languageContext from "../../contexts/language/languageContext";
+import successContext from "../../contexts/success/successContext";
+import guessedWordsContext from "../../contexts/guessedWords/guessedWordsContext";
 
 // mock entire module for destructuring useState on import
 // const mockSetCurrentGuess = jest.fn();
@@ -14,7 +16,11 @@ import languageContext from "../../contexts/language/languageContext";
 const setup = ({language = 'en', secretWord = 'party', success = false}) => {
     return mount(
         <languageContext.Provider value={language}>
-            <Input success={success} secretWord={secretWord}/>
+            <successContext.SuccessProvider value={[success, jest.fn()]}>
+                <guessedWordsContext.GuessedWordsProvider>
+                    <Input secretWord={secretWord}/>
+                </guessedWordsContext.GuessedWordsProvider>
+            </successContext.SuccessProvider>
         </languageContext.Provider>
     );
 }

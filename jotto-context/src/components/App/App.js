@@ -5,7 +5,10 @@ import GuessedWords from "../GuessedWords/GuessedWords";
 import Input from "../Input/Input";
 import {getSecretWord} from "../../actions";
 import languageContext from "../../contexts/language/languageContext";
+import successContext from "../../contexts/success/successContext";
+import guessedWordsContext from "../../contexts/guessedWords/guessedWordsContext";
 import LanguagePicker from "../LanguagePicker/LanguagePicker";
+
 
 const reducer = (state, action) => {
     switch (action.type) {
@@ -20,8 +23,6 @@ const reducer = (state, action) => {
 
 function App() {
     const [state, dispatch] = React.useReducer(reducer, {secretWord: null, language: 'en'})
-    const success = false;
-    const guessedWords = [];
 
     const setSecretWord = (secretWord) => {
         dispatch({type: 'setSecretWord', payload: secretWord})
@@ -49,11 +50,16 @@ function App() {
     return (
         <div className="container" data-test="component-app">
             <h1>Jotto</h1>
+            <p>The secret word is {state.secretWord}</p>
             <languageContext.Provider value={state.language}>
                 <LanguagePicker setLanguage={setLanguage}/>
-                <Congrats success={success}/>
-                <Input success={success} secretWord={state.secretWord}/>
-                <GuessedWords guessedWords={[{guessedWord: 'train', letterMatchCount: 3}]}/>
+                <guessedWordsContext.GuessedWordsProvider>
+                    <successContext.SuccessProvider>
+                        <Congrats/>
+                        <Input secretWord={state.secretWord}/>
+                    </successContext.SuccessProvider>
+                    <GuessedWords/>
+                </guessedWordsContext.GuessedWordsProvider>
             </languageContext.Provider>
         </div>
     );

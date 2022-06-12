@@ -3,11 +3,14 @@ import {mount} from 'enzyme';
 import Congrats from './Congrats';
 import {findByTestAttribute} from "../../../test/testUtils";
 import languageContext from "../../contexts/language/languageContext";
+import successContext from "../../contexts/success/successContext";
 
 const setup = ({success = false, language = 'en'}) => {
     return mount(
         <languageContext.Provider value={language}>
-            <Congrats success={success}/>
+            <successContext.SuccessProvider value={[success, jest.fn()]}>
+                <Congrats/>
+            </successContext.SuccessProvider>
         </languageContext.Provider>
     )
 }
@@ -29,13 +32,13 @@ test('renders without crashing', () => {
     expect(component.length).toBe(1);
 });
 
-test('renders no text when `success` prop is false', () => {
+test('renders no text when `success` is false', () => {
     const wrapper = setup({success: false});
     const component = findByTestAttribute(wrapper, 'component-congrats');
     expect(component.text()).toBe('');
 });
 
-test('renders non-empty congrats message when `success` prop is true', () => {
+test('renders non-empty congrats message when `success` is true', () => {
     const wrapper = setup({success: true});
     const message = findByTestAttribute(wrapper, 'congrats-message');
     expect(message.text().length).not.toBe(0);

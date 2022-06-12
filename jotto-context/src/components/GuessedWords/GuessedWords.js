@@ -1,21 +1,22 @@
 import React from "react";
-import PropTypes from "prop-types";
 import languageContext from "../../contexts/language/languageContext";
 import stringsModule from "../../helpers/strings";
+import guessedWordsContext from "../../contexts/guessedWords/guessedWordsContext";
 
 
-const GuessedWords = (props) => {
+const GuessedWords = () => {
     const language = React.useContext(languageContext);
+    const [guessedWords] = guessedWordsContext.useGuessedWords();
 
     let contents;
-    if (props.guessedWords.length === 0) {
+    if (guessedWords.length === 0) {
         contents = (
             <span data-test="guess-instructions">
                 {stringsModule.getStringByLanguage(language, 'guessPrompt')}
             </span>
         )
     } else {
-        const guessedWordsNodes = props.guessedWords.map((word, index) => (
+        const guessedWordsNodes = guessedWords.map((word, index) => (
             <tr data-test="guessed-word" key={index}>
                 <td>{word.guessedWord}</td>
                 <td>{word.letterMatchCount}</td>
@@ -46,14 +47,7 @@ const GuessedWords = (props) => {
     );
 }
 
-GuessedWords.propTypes = {
-    guessedWords: PropTypes.arrayOf(
-        PropTypes.shape({
-            guessedWord: PropTypes.string.isRequired,
-            letterMatchCount: PropTypes.number.isRequired
-        })
-    ).isRequired
-};
+GuessedWords.propTypes = {};
 
 GuessedWords.defaultProps = {};
 
